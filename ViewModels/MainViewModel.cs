@@ -34,6 +34,20 @@ namespace DigtialScreen.ViewModels
             set { SetProperty(ref _currentYeild, value); }
         }
 
+        private DateTime _nowDateTime = DateTime.Now;
+        public DateTime NowDateTime
+        {
+            get { return _nowDateTime; }
+            set { SetProperty(ref _nowDateTime, value); }
+        }
+
+        private string _timeCnFormat = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss");
+        public string TimeCnFormat
+        {
+            get { return _timeCnFormat; }
+            set { SetProperty(ref _timeCnFormat, value); }
+        }
+
         public int FinishedRate { get; set; } = 80;
 
         public List<BadItemModel> BadScatter { get; set; }
@@ -137,6 +151,11 @@ namespace DigtialScreen.ViewModels
             });
             #endregion
 
+            #region 时间初始化
+            NowDateTime = DateTime.Now;
+            StartClock();
+            #endregion
+
             TcpClient tcpClient = new TcpClient();
             try
             {
@@ -159,7 +178,6 @@ namespace DigtialScreen.ViewModels
                                 Alarms.RemoveAt(Alarms.Count - 1);
                             }
                         });
-
                     }
                 }, cts.Token);
             }
@@ -168,6 +186,21 @@ namespace DigtialScreen.ViewModels
                 return;
             }
 
+        }
+
+        private async void StartClock()
+        {
+            while (!cts.IsCancellationRequested)
+            {
+                // 在UI线程上更新
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    NowDateTime = DateTime.Now;
+                    TimeCnFormat = DateTime.Now.ToString("yyyy年MM月dd日 HH:mm:ss");
+                });
+
+                await Task.Delay(1000); // 等待1秒
+            }
         }
 
         public void Dispose()
