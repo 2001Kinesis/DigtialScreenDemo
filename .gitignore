@@ -1,0 +1,38 @@
+# Trae IDE
+.trae/
+.cr/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# 编译输出
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+Debug/
+Release/
+*.dll
+*.exe
+*.pdb
+*.manifest
+
+# NuGet
+packages/
+*.nupkg
+
+# 临时文件
+*.tmp
+*.log
+*.cache
+*.bak
+*.old
+
+# 操作系统
+Thumbs.db
+.DS_Store
+desktop.ini
